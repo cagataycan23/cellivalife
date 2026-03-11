@@ -25,9 +25,10 @@ const normalizeCategory = (value?: string | null) => {
 
 const resolveImageUrl = (path?: string | null) => {
   if (!path) return null;
-  if (path.startsWith("http")) return path;
-  if (!IMAGE_BASE) return path;
-  const normalized = path.startsWith("/") ? path : `/${path}`;
+  const trimmed = path.trim();
+  if (trimmed.startsWith("http")) return trimmed;
+  if (!IMAGE_BASE) return trimmed;
+  const normalized = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
   return `${IMAGE_BASE}${normalized}`;
 };
 
