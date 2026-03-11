@@ -1,10 +1,17 @@
 import { NextResponse } from "next/server";
-import { products } from "@/lib/products";
+import { fetchCatalogProducts } from "@/lib/supabase/catalog";
+
+export const revalidate = 300; // 5 minutes
 
 export async function GET() {
-  return NextResponse.json({
-    inventory: products.map((product) => ({
-      ...product,
-    })),
-  });
+  try {
+    const inventory = await fetchCatalogProducts();
+    return NextResponse.json({ inventory });
+  } catch (error) {
+    console.error("[Inventory API] failed to load products", error);
+    return NextResponse.json(
+      { error: "Unable to load inventory." },
+      { status: 500 }
+    );
+  }
 }
