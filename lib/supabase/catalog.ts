@@ -26,7 +26,7 @@ const normalizeCategory = (value?: string | null) => {
 const resolveImageUrl = (path?: string | null) => {
   if (!path) return null;
   const trimmed = path.trim();
-  const cleaned = trimmed.replace(/[\r\n]+/g, "");
+  const cleaned = trimmed.replace(/\\n/g, "").replace(/[\r\n]+/g, "");
   if (cleaned.startsWith("http")) return cleaned;
   if (!IMAGE_BASE) return cleaned;
   const normalized = cleaned.startsWith("/") ? cleaned : `/${cleaned}`;
